@@ -1,5 +1,5 @@
 using LinearAlgebra
-function MetodoDaPotencia(n ,A , x, tol, max_it)
+function metodo_potencia(n ,A , x, tol, max_it)
 
     k = 1
     p = 1
@@ -10,31 +10,20 @@ function MetodoDaPotencia(n ,A , x, tol, max_it)
            aux1 = 1
        end
        p+=1
-   end
-
-
+    end
     p+=-1
-
     x *= (1/x[p])
-
- 
-
     while(k <= max_it)
-
       y = A*x
       U = y[p]
       aux1 = 0
       p = 1
-
-
       while(aux1 == 0)
           if (norm(y[p]) == norm(y, Inf))
               aux1+=1
           end
           p+=1
-    end
-
-
+      end
       p+=-1
       if (y[p] == 0)
         println("ERRO: A matriz tem autovalor 0, tente novamente com um vetor alterio.")
@@ -55,23 +44,23 @@ function MetodoDaPotencia(n ,A , x, tol, max_it)
 
 end
 
-
-function Google(n,A,h) # aonde n dimenção da matriz A, Matriz A sendo matriz de conectividade, h sendo o dumping factor
-  v = [0]
-  x = 1
-  for i=1 : n 
-    for j=1 : n
-     v[x] += A[i][j]
+function m_google(A)
+    α = 0.85
+    n = size(A,1)
+    for j = 1:n
+      if sum(A[:, j]) != 0
+        A[:,j] = A[:,j]/ sum(A[:,j])
+      else
+        A[:,j] .= 1/n
+      end
     end
-    v = [v 0]
-    x+=1
-  end
-  x = 1
-   for i=1 : n 
-    for j=1 : n
-     A[i][j]=A[i][j]*(1/v[x])
-    end
-    x+=1
-  end  
-  return A*h +ones(A)*(1/n)
+    return (α*A .+ (1 - α)/n)
 end
+
+
+A = [0.0 1 1 0 0 0; 0 0 0 0 0 0; 1 1 0 1 0 0; 0 0 0 0 1 1;0 0 0 0 0 1; 0 0 0 1 1 0]
+B = m_google(A)
+print(B)
+
+C = metodo_potencia(6 ,B , [1,1,1,1,1,1], 10^-8, 1000)
+show(C)
