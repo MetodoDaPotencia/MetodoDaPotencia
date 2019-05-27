@@ -1,0 +1,77 @@
+using LinearAlgebra
+function MetodoDaPotencia(n ,A , x, tol, max_it)
+
+    k = 1
+    p = 1
+    aux1 = 0
+
+    while(aux1 == 0)
+        if  (norm(x[p]) == norm(x, Inf))
+           aux1 = 1
+       end
+       p+=1
+   end
+
+
+    p+=-1
+
+    x *= (1/x[p])
+
+ 
+
+    while(k <= max_it)
+
+      y = A*x
+      U = y[p]
+      aux1 = 0
+      p = 1
+
+
+      while(aux1 == 0)
+          if (norm(y[p]) == norm(y, Inf))
+              aux1+=1
+          end
+          p+=1
+    end
+
+
+      p+=-1
+      if (y[p] == 0)
+        println("ERRO: A matriz tem autovalor 0, tente novamente com um vetor alterio.")
+        return ("autovetor",x)
+        break
+      end
+
+      if (norm((x - y/y[p] ), Inf ) < tol )
+        return (U , x)
+        break
+      end
+      println(x)
+      println(U)
+      x = y/y[p]
+      k+=1
+    end
+    println("ERRO: Número máximo de iterações atingido")
+
+end
+
+
+function Google(n,A,h) # aonde n dimenção da matriz A, Matriz A sendo matriz de conectividade, h sendo o dumping factor
+  v = [0]
+  x = 1
+  for i=1 : n 
+    for j=1 : n
+     v[x] += A[i][j]
+    end
+    v = [v 0]
+    x+=1
+  end
+  x = 1
+   for i=1 : n 
+    for j=1 : n
+     A[i][j]=A[i][j]*(1/v[x])
+    end
+    x+=1
+  end  
+  return A*h +ones(A)*(1/n)
+end
