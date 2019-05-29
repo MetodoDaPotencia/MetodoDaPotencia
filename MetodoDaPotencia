@@ -56,13 +56,13 @@ function m_google(A)
 end
 
 function PageRank(A)
-  return metodo_potencia(6 ,m_google(A), [1,1,1,1,1,1], 10^-8, 1000)[2]/sum(metodo_potencia(6 ,m_google(A) , [1,1,1,1,1,1], 10^-8, 1000)[2][:])
+  println(metodo_potencia(6 ,m_google(A) , [1,1,1,1,1,1], 10^-8, 1000)[1])
+  println(metodo_potencia(6 ,m_google(A), [1,1,1,1,1,1], 10^-8, 1000)[2]/sum(metodo_potencia(6 ,m_google(A) , [1,1,1,1,1,1], 10^-8, 1000)[2][:]))
+
+  return[ metodo_potencia(6 ,m_google(A) , [1,1,1,1,1,1], 10^-8, 1000)[1], metodo_potencia(6 ,m_google(A), [1,1,1,1,1,1], 10^-8, 1000)[2]/sum(metodo_potencia(6 ,m_google(A) , [1,1,1,1,1,1], 10^-8, 1000)[2][:])]
+
 end
 
-
 A = [0.0 1 1 0 0 0; 0 0 0 0 0 0; 1 1 0 1 0 0; 0 0 0 0 1 1;0 0 0 0 0 1; 0 0 0 1 1 0]
-B = m_google(A)
-C = metodo_potencia(6 ,B , [1,1,1,1,1,1], 10^-8, 1000)
-
 
 println(PageRank(A))
